@@ -16,37 +16,41 @@ async function fetchWeatherData(city) {
       console.log('City not found');
       // Handle the case where the city is not found
     } else {
-      console.log('City:', data.name);
-      console.log('Temperature:', Math.round(data.main.temp) + '°C');
-      console.log('Humidity:', data.main.humidity + '%');
-      console.log('Wind speed:', data.wind.speed + ' km/h');
+      if (data.name) {
+        console.log('City:', data.name);
+        console.log('Temperature:', Math.round(data.main.temp) + '°C');
+        console.log('Humidity:', data.main.humidity + '%');
+        console.log('Wind speed:', data.wind.speed + ' km/h');
 
-      let weatherIcon;
+        let weatherIcon;
 
-      switch (data.weather[0].main) {
-        case 'Clouds':
-          weatherIcon = 'images/clouds.png';
-          break;
-        case 'Clear':
-          weatherIcon = 'images/clear.png';
-          break;
-        case 'Rain':
-          weatherIcon = 'images/rain.png';
-          break;
-        case 'Drizzle':
-          weatherIcon = 'images/drizzle.png';
-          break;
-        default:
-          weatherIcon = 'images/mist.png';
+        switch (data.weather[0].main) {
+          case 'Clouds':
+            weatherIcon = 'images/clouds.png';
+            break;
+          case 'Clear':
+            weatherIcon = 'images/clear.png';
+            break;
+          case 'Rain':
+            weatherIcon = 'images/rain.png';
+            break;
+          case 'Drizzle':
+            weatherIcon = 'images/drizzle.png';
+            break;
+          default:
+            weatherIcon = 'images/mist.png';
+        }
+
+        console.log('Weather icon:', weatherIcon);
+      } else {
+        console.log('City name not available in the response');
+        // Handle the case where the city name is not available
       }
-
-      console.log('Weather icon:', weatherIcon);
     }
   } catch (error) {
     console.error('Error fetching weather data:', error.message);
   }
 }
-
 searchBtn.addEventListener('click', () => {
   fetchWeatherData(searchBox.value);
 });
