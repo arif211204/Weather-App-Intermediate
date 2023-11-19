@@ -10,42 +10,34 @@ let input = document.querySelector('input');
 async function fetchWeatherData(city) {
   try {
     const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
-    const data = response.data;
 
-    if (response.status === 404) {
-      console.log('City not found');
-      // Handle the case where the city is not found
+    if (response.status == 404) {
+      document.querySelector('.error').style.display = 'block';
+      document.querySelector('.weather').style.display = 'none';
     } else {
-      if (data.name) {
-        console.log('City:', data.name);
-        console.log('Temperature:', Math.round(data.main.temp) + '°C');
-        console.log('Humidity:', data.main.humidity + '%');
-        console.log('Wind speed:', data.wind.speed + ' km/h');
+      var data = await response.json();
 
-        let weatherIcon;
+      document.querySelector('.city').innerHTML = data.name;
+      document.querySelector('.temp').innerHTML =
+        Math.round(data.main.temp) + '°c';
+      document.querySelector('.humidity').innerHTML = data.main.humidity + '%';
+      document.querySelector('.wind').innerHTML = data.wind.speed + ' km/h';
 
-        switch (data.weather[0].main) {
-          case 'Clouds':
-            weatherIcon = 'images/clouds.png';
-            break;
-          case 'Clear':
-            weatherIcon = 'images/clear.png';
-            break;
-          case 'Rain':
-            weatherIcon = 'images/rain.png';
-            break;
-          case 'Drizzle':
-            weatherIcon = 'images/drizzle.png';
-            break;
-          default:
-            weatherIcon = 'images/mist.png';
-        }
-
-        console.log('Weather icon:', weatherIcon);
+      if (data.weather[0].main == 'Clouds') {
+        weatherIcon.src = 'images/clouds.png';
+      } else if (data.weather[0].main == 'Clear') {
+        weatherIcon.src = 'images/clear.png';
+      } else if (data.weather[0].main == 'Rain') {
+        weatherIcon.src = 'images/rain.png';
+      } else if (data.weather[0].main == 'Drizzle') {
+        weatherIcon.src = 'images/drizzle.png';
       } else {
-        console.log('City name not available in the response');
-        // Handle the case where the city name is not available
+        data.weather[0].main == 'Mist';
+        weatherIcon.src = 'images/mist.png';
       }
+
+      document.querySelector('.weather').style.display = 'block';
+      document.querySelector('.error').style.display = 'none';
     }
   } catch (error) {
     console.error('Error fetching weather data:', error.message);
