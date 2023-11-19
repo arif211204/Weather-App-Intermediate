@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 const apiKey = 'f4d2480458b2058e14f2bac6d120f3a9';
 const apiUrl = 'http://api.openweathermap.org/data/2.5/weather?units=metric&q=';
 
@@ -11,7 +9,7 @@ let input = document.querySelector('input');
 // Function to fetch weather data
 async function fetchWeatherData(city) {
   try {
-    const response = await axios.get(apiUrl + city + `&appid=${apiKey}`);
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
     const data = response.data;
 
     if (response.status === 404) {
