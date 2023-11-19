@@ -1,4 +1,4 @@
-const { default: axios } = require('axios');
+const axios = require('axios');
 
 const apiKey = 'f4d2480458b2058e14f2bac6d120f3a9';
 const apiUrl = 'http://api.openweathermap.org/data/2.5/weather?units=metric&q=';
